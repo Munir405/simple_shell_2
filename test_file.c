@@ -1,12 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
+#include "main.h"
+
 /**
  * main - Program starting point
  *
  * Return: 0 if successful
  */
+
 int main(void)
 {
 	char first_name[40];
@@ -15,13 +14,13 @@ int main(void)
 
 	write(STDOUT_FILENO, "Type your first name: ", 23);
 	store = read(STDIN_FILENO, first_name, sizeof(first_name) - 1);
-	
+
 	if (store <= 0)
 	{
 		perror("Error, can't read name");
 		return (1);
 	}
-	first_name[store - 1] = '\0'; 
+	first_name[store - 1] = '\0';
 	write(STDOUT_FILENO, "Type your last name: ", 22);
 	store = read(STDIN_FILENO, last_name, sizeof(last_name) - 1);
 	if (store <= 0)
