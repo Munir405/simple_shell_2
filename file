@@ -1,11 +1,11 @@
 #include "shell.h"
-
 /**
  * operations_execute - functions for executing commands
  * @command: the commands enterred
+ * @args: the arguments entered
  */
 
-void operations_execute(const char *command)
+void operations_execute(char *command, char *args)
 {
 	pid_t minor_pid = fork();
 
@@ -16,12 +16,14 @@ void operations_execute(const char *command)
 	}
 	else if (minor_pid == 0)
 	{
-		execlp(command, command, (char *)NULL);
-		perror("exclp");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(NULL);
+		if (execve(command, args, NULL) == -1)
+		{
+			perror("execve");
+			return;
+		}
+		else
+		{
+			wait(NULL);
+		}
 	}
 }
