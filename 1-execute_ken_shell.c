@@ -1,45 +1,40 @@
 #include "shell.h"
-
 /**
  * operations_execute - functions for executing commands
  * @command: the commands enterred
  */
-
-void operations_execute(const char *command)
+void operations_execute(char *command)
 {
-	char *args[100];
-	char *tokenize, *delim;
-	char *envp[] = { NULL };
-	int i;
-	pid_t minor_pid;
+	char *delim = " \t", *token, *cmd, *av[100];
+	char *envp[] = {"PATH=/bin", NULL};
+	pid_t minor_pid = fork();
+	int i = 0, status;
 
-	delim = " \t\n";
-
-       	minor_pid = fork();
-
-	if (minor_pid == -1)
+	token = strtok(command, delim);
+	cmd = token;
+	while (token != NULL)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
+		av[i] = token;
+		token = strtok(NULL, delim);
+		i++;
 	}
-	else if (minor_pid == 0)
+	av[i] = NULL;
+	if (cmd != NULL)
 	{
-		i = 0;
-		tokenize = strtok((char *)command, delim);
-		while (tokenize != NULL)
+		if (minor_pid == -1)
+			exit(EXIT_FAILURE);
+		else if (minor_pid == 0)
 		{
-			args[i] = tokenize;
-			tokenize = strtok(NULL, delim);
-			i++;
+			if (execve(cmd, av, envp) == -1)
+			{
+				perror(cmd);
+				exit(EXIT_FAILURE);
+			}
 		}
-		args[i] = NULL;
-
-		execve(args[0], args, envp);
-		perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(NULL);
+		else
+		{
+			if (waitpid(minor_pid, &status, 0) == -1)
+				perror(cmd);
+		}
 	}
 }
