@@ -7,7 +7,9 @@
 
 void operations_execute(const char *command)
 {
-	pid_t minor_pid = fork();
+	pid_t minor_pid;
+
+	minor_pid = fork();
 
 	if (minor_pid == -1)
 	{
@@ -17,7 +19,7 @@ void operations_execute(const char *command)
 	else if (minor_pid == 0)
 	{
 		execlp(command, command, (char *)NULL);
-		perror("exclp");
+		perror("execlp");
 		exit(EXIT_FAILURE);
 	}
 	else

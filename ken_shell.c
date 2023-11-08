@@ -13,12 +13,17 @@ void show_prompt(void)
  */
 int main(void)
 {
-	char command[100];
+	char *command[100];
 
-	while (1)
+	while (true)
 	{
 		show_prompt();
+<<<<<<< HEAD
 		recieve_input(command, sizeof(command));
+=======
+		recieve_input(*command, sizeof(*command));
+		operations_execute(*command);
+>>>>>>> 305ecbaa9dcb958757e271c3f3159bc7c40422e5
 	}
 	return (0);
 }

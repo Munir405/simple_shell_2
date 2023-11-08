@@ -6,20 +6,9 @@
  * Return: void
  */
 
-void recieve_input(char *command, size_t size)
+void recieve_input(char *command, int size)
 {
-	if (fgets(command, size, stdin) == NULL)
-	{
-		if (feof(stdin))
-		{
-			ken_display("\n");
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			ken_display("Error.\n");
-			exit(EXIT_FAILURE);
-		}
-	}
-	command[strcspn(command, "\n")] = '\0';
+	fgets(command, size, stdin);
+	remove_newline(command);
+	operations_execute(command);
 }
