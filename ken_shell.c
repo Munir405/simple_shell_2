@@ -19,7 +19,6 @@ int main(void)
 	{
 		show_prompt();
 		recieve_input(command, sizeof(command));
-		operations_execute(command);
 	}
 	return (0);
 }
