@@ -1,29 +1,30 @@
 #include "shell.h"
-/**
- * show_prompt - Display the shell prompt
- */
-void show_prompt(void)
-{
-	ken_display("kenny_shell$ ");
-}
+
 /**
  * main - Program starting point
- *
- * Return: 0
+ * @ac: argument count
+ * @av: argument vector
+ * Return: success always 0
  */
-int main(void)
-{
-	char *command[100];
 
-	while (true)
+int main(int ac __attribute__((unused)), char **av)
+{
+	int exec_stat = 0;
+	char *read_lines;
+	char **read_token;
+
+	while (1)
 	{
-		show_prompt();
-<<<<<<< HEAD
-		recieve_input(command, sizeof(command));
-=======
-		recieve_input(*command, sizeof(*command));
-		operations_execute(*command);
->>>>>>> 305ecbaa9dcb958757e271c3f3159bc7c40422e5
+		read_lines = recieve_input();
+		if (read_lines == NULL)
+		{
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (exec_stat);
+		}
+		read_token = tknz_cmdL_args(read_lines);
+		if (!read_token)
+			continue;
+		exec_stat = exec_cmd(read_token, av);
 	}
-	return (0);
 }
