@@ -4,19 +4,20 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
-#include <ctype.h>
 
+extern char **environ;
 void ken_display(const char*);
 void show_prompt(void);
-void operations_execute(char *);
-void recieve_input(char *cmd, int size);
-size_t _strlen(const char*);
-char *_strdup(const char*);
-int _strcmp(const char*, const char*);
-void remove_newline(char *);
+int exec_cmd(char **init_cmd, char **av);
+char *recieve_input(void);
+size_t _strlen(const char *str);
+char *_strdup(const char *);
+char **tknz_cmdL_args(char *input_cmd);
+void _free(char **ar);
 
 #endif
