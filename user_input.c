@@ -1,14 +1,24 @@
 #include "shell.h"
+
 /**
  * recieve_input - Function use in reading user's input
- * @command: The user's input
- * @size: The size of the input
+ * @void - no argument pass.
  * Return: void
  */
 
-void recieve_input(char *command, int size)
+char *recieve_input(void)
 {
-	fgets(command, size, stdin);
-	remove_newline(command);
-	operations_execute(command);
+	char *read_input = NULL;
+	size_t len = 0;
+	ssize_t read;
+
+	if (isatty(STDIN_FILENO))
+		show_prompt();
+	read = getline(&read_input, &len, stdin);
+	if (read == -1)
+	{
+		free(read_input);
+		return (NULL);
+	}
+	return (read_input);
 }
