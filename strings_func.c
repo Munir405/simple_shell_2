@@ -19,23 +19,6 @@ size_t _strlen(const char *str)
 }
 
 /**
- * _strcmp - this function compare between two strings
- * @str1: first string
- * @str2: second string
- * Return: success always(1)
- */
-
-int _strcmp(const char *str1, const char *str2)
-{
-	while (*str1 == *str2)
-	{
-		str1++;
-		str2++;
-	}
-	return (*(unsigned char *)str1 - *(unsigned char *)str2);
-}
-
-/**
  * _strdup - this function duplicate a string
  * @str: the argument to duplicate
  * Return: pointer to the newly allocated mem
@@ -44,36 +27,19 @@ int _strcmp(const char *str1, const char *str2)
 
 char *_strdup(const char *str)
 {
-	size_t i, len;
-	char *copy;
+	int len = 0;
+	char *dup;
 
-	len = _strlen(str);
-	copy = (char *)malloc(len + 1);
-
-	if (copy)
+	if (!str)
+		return (NULL);
+	while (*str++)
 	{
-		for (i = 0; i <= len; i++)
-		{
-			copy[i] = str[i];
-		}
+		len++;
 	}
-	return (copy);
-}
-
-/**
- * remove_newline - a function that removes newline
- * @str: argument to be checked through for possible
- * newline character
- * Return: success always (1)
- */
-
-void remove_newline(char *str)
-{
-	char *check_newline;
-
-	check_newline = strchr(str, '\n');
-	if (check_newline)
-	{
-		*check_newline = '\0';
-	}
+	dup = malloc(sizeof(char *) * (len + 1));
+	if (!dup)
+		return (NULL);
+	for (len++; len--;)
+		dup[len] = *--str;
+	return (dup);
 }
